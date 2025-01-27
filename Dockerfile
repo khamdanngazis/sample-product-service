@@ -6,7 +6,7 @@ WORKDIR /app
 
 # Copy the Go module files and download dependencies
 COPY go.mod go.sum ./
-RUN go mod download
+RUN go mod tidy
 
 # Copy the rest of the application files
 COPY . .
@@ -14,8 +14,8 @@ COPY . .
 # Set the working directory to the `cmd` folder and build the Go application
 WORKDIR /app/cmd
 
-# Build the Go application
-RUN GOOS=linux GOARCH=amd64 go run main.go
+# Build the Go application for Linux AMD64 architecture
+RUN GOOS=linux GOARCH=amd64 go build -o /app/main .
 
 # Step 2: Create the runtime container
 FROM alpine:3.18
@@ -24,9 +24,9 @@ FROM alpine:3.18
 WORKDIR /root/
 
 # Copy the built binary from the build container
-COPY --from=build /app/cmd/main .
+COPY --from=build /app/main .
 
-# Expose the application port (replace with your actual port, e.g., 8080)
+# Expose the application port (replace with your actual port, e.g., 8001)
 EXPOSE 8001
 
 # Command to run the Go application
