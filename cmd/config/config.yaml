@@ -1,0 +1,18 @@
+database:
+  main:
+    host: "localhost"
+    port: "5432"
+    user: "postgres"
+    password: "12345abc"
+    dbname: "market_places"
+    sslmode: "disable"
+    timezone: "Asia/Jakarta"
+    encoding: "UTF8"
+    debug: false
+redis:
+  host: "localhost"
+  port: "6379"
+  password: ""
+
+appport: ':8001'
+
