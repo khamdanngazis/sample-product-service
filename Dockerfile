@@ -1,5 +1,5 @@
 # Step 1: Build the Go application
-FROM golang:1.20-alpine AS build
+FROM golang:1.22-alpine AS build
 
 # Set the current working directory in the container
 WORKDIR /app
@@ -14,8 +14,8 @@ COPY . .
 # Set the working directory to the `cmd` folder and build the Go application
 WORKDIR /app/cmd
 
-# Build the Go application for Linux AMD64 architecture
-RUN GOOS=linux GOARCH=amd64 go build -o /app/main .
+# Build the Go application
+RUN GOOS=linux GOARCH=amd64 go run main.go
 
 # Step 2: Create the runtime container
 FROM alpine:3.18
@@ -24,9 +24,9 @@ FROM alpine:3.18
 WORKDIR /root/
 
 # Copy the built binary from the build container
-COPY --from=build /app/main .
+COPY --from=build /app/cmd/main .
 
-# Expose the application port (replace with your actual port, e.g., 8001)
+# Expose the application port (replace with your actual port, e.g., 8080)
 EXPOSE 8001
 
 # Command to run the Go application
